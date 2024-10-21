@@ -18,5 +18,5 @@ export declare function createEditor(editorContainer: HTMLElement, defaultValues
     getState: (type: string) => any;
     setState: (type: string, state: any) => void;
 };
-export declare type EditorAPI = ReturnType<typeof createEditor>;
+export type EditorAPI = ReturnType<typeof createEditor>;
 export {};

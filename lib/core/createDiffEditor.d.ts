@@ -4,4 +4,4 @@ export declare const createDiffEditor: (container: HTMLElement, original: string
     originalModel: import("monaco-editor").editor.ITextModel;
     modifiedModel: import("monaco-editor").editor.ITextModel;
 };
-export declare type DiffEditorAPI = ReturnType<typeof createDiffEditor>;
+export type DiffEditorAPI = ReturnType<typeof createDiffEditor>;

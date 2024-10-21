@@ -1,1 +1,1 @@
-export declare const ConsoleHook: string;
+export declare const ConsoleHook = "<script data-type=\"__SANDBOX_HOOK__\">\n;(() => {\n\t// hook\n\tvar origin_log = console.log\n\tconsole.log = function() {\n\t\torigin_log.apply(this, arguments)\n\t\tvar output = Array.from(arguments).join(\" \")\n\t\ttop.postMessage({method: \"__MESSAGE_CONSOLE__\", value: output}, top.location.origin)\n\t}\n\twindow.addEventListener('error', event => {\n\t\ttop.postMessage({method: \"__MESSAGE_CONSOLE_ERROR__\", value: event.message}, top.location.origin)\n\t})\n})()</script>";
