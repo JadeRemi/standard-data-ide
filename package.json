@@ -1,7 +1,7 @@
 {
   "name": "Web editor",
   "version": "0.0.1",
-  "description": "a web editor for react/tsx app develop、build !",
+  "description": "web editor",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack -w",
     "dev": "set NODE_OPTIONS=--openssl-legacy-provider && cross-env NODE_ENV=development webpack-dev-server",
