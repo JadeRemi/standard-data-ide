@@ -17,7 +17,7 @@ export interface LocalStorage {
 }
 
 export class StateSaver {
-  static _stateKey = "tsSimpleAst_savedState"; // accidentally used name... oh well..
+  static _stateKey = "tsSimpleAst_savedState";
   private _cachedState: SavedState | undefined = undefined;
 
   constructor(private readonly localStorage: LocalStorage = globalThis.localStorage) {

@@ -1,10 +1,9 @@
 
-import { parse } from 'node-html-parser';
+
 import { KEYS } from '../constants'
 import { compileTS, EditorAPI } from '../core'
 import { enClosure } from '../utils'
 import { ConsoleHook } from './hooks'
-import { castElement } from '../utils/writeTree';
 
 export const makeSandCode = async (
   editor: EditorAPI,
@@ -16,10 +15,7 @@ export const makeSandCode = async (
   const typescript = editor.getValue("typescript")
   const json = editor.getValue("json")
 
-  //
-  //const api = await getCompilerApi("typescript");
 
-  //
 
   // cache
   localStorage.setItem(KEYS.__LS_JS__, js)
@@ -34,7 +30,7 @@ export const makeSandCode = async (
 		 ${html}
 		 ${js && `<script>${enClosure(js)}</script>`}`
 
-  if (!!typescript) {
+  if (typescript) {
     let ts_js = await compileTS(editor.getModel("typescript").uri)
     if (ts_js.includes("define")) {
       ts_js = ts_js.replace(/define\(/, 'define("index",')

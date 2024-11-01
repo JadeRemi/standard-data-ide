@@ -418,6 +418,7 @@ const App = () => {
         onRun={run}
         onResize={e => setEditorSize(e.clientX)}
         onDownload={() => download("index")}
+        editor={editor}
       />
       <a ref={dl_ref} />
     </div>
