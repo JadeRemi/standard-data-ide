@@ -5,6 +5,7 @@ import { addDragListener } from '../../utils'
 import { Sandbox } from './Sandbox'
 import IframeTest from '../../test/deliverMocha';
 import { EditorAPI } from '../../core'
+import { TestLoader } from '../../test/loadTests'
 
 export interface Aside {
   onResize: (event: MouseEvent) => string
@@ -13,6 +14,7 @@ export interface Aside {
   sandboxRef: { current : HTMLIFrameElement }
   ref: { current : HTMLDivElement }
   editor: EditorAPI
+  reload: ({}) => void
 }
 
 export const Aside = ({
@@ -21,7 +23,8 @@ export const Aside = ({
   onResize,
   onDownload,
   onRun,
-  editor
+  editor,
+  reload,
 }: Aside) => {
   const asideSize_ref = useRef<HTMLDivElement>()
   const aside_console_ref = useRef<HTMLDivElement>()
@@ -117,6 +120,7 @@ export const Aside = ({
       <Sandbox sandboxRef={sandboxRef}/>
       
       <IframeTest editor={editor} consoleRef={console_ref}/>
+      <TestLoader reload={reload}/>
       <div className="Aside-Size" ref={asideSize_ref} />
       <div ref={aside_console_ref} className="Aside-Console">
         <div className="Console-Bar">

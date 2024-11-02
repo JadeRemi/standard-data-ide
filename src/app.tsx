@@ -47,6 +47,11 @@ const App = () => {
   const toolBar_ref = useRef<HTMLDivElement>()
   let toolBtns: HTMLButtonElement[]
 
+  const reloadEditorContent = () => {
+    const tsText = localStorage.getItem(KEYS.__LS_TS__);
+    editor.setValue("typescript", tsText)
+  }
+
   const init = async () => {
     let defaults = {
       typescript: localStorage.getItem(KEYS.__LS_TS__),
@@ -83,6 +88,8 @@ const App = () => {
     // init current tab
     const tabIndex = Number(localStorage.getItem(KEYS.__LS_CUR_TAB__) || "4")
     activeBtn(tabIndex)
+
+
 
     // listeners
     addUploadListener(({ name, type, content }) => {
@@ -419,6 +426,7 @@ const App = () => {
         onResize={e => setEditorSize(e.clientX)}
         onDownload={() => download("index")}
         editor={editor}
+        reload={reloadEditorContent}
       />
       <a ref={dl_ref} />
     </div>
@@ -426,3 +434,5 @@ const App = () => {
 }
 
 render(<App />, document.getElementById("root"))
+
+
