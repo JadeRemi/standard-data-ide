@@ -28,7 +28,7 @@ const applyFileName = (fileName: string, fileType: TFile) => {
 
 const applyFileContent = (content: string, fileType: TFile) => {
     const key = storageContentKeys[fileType]
-
+    console.log("key", key, content)
     if (key) localStorage.setItem(key, content)
 
 }
@@ -48,7 +48,7 @@ const parseFields = (fields: { file_name: string, value: string}[]) => {
         if (file_name.endsWith(".tsx") || file_name.endsWith(".ts")) fileType = "ts"
         if (file_name.endsWith(".css")) fileType = "css"
         if (file_name.endsWith(".json")) fileType = "json"
-    
+
         if (!fileType) return;
         applyFileName(file_name, fileType)
         applyFileContent(value, fileType)

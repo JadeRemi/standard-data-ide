@@ -47,6 +47,22 @@ const App = () => {
   const toolBar_ref = useRef<HTMLDivElement>()
   let toolBtns: HTMLButtonElement[]
 
+  //localStorage.setItem(KEYS.__LS_JS_NAME__, "JS")
+  //localStorage.setItem(KEYS.__LS_TS_NAME__, "TS")
+  //localStorage.setItem(KEYS.__LS_JSON_NAME__, "JSON")
+  //localStorage.setItem(KEYS.__LS_CSS_NAME__, "CSS")
+  //localStorage.setItem(KEYS.__LS_HTML_NAME__, "HTML")
+
+
+
+  const jsFileName = useRef<string>(localStorage.getItem(KEYS.__LS_JS_NAME__) || "JS")
+  const tsFileName = useRef<string>(localStorage.getItem(KEYS.__LS_TS_NAME__) || "TS")
+  const jsonFileName = useRef<string>(localStorage.getItem(KEYS.__LS_JSON_NAME__) || "JSON")
+  const cssFileName = useRef<string>(localStorage.getItem(KEYS.__LS_CSS_NAME__) || "CSS")
+  const htmlFileName = useRef<string>(localStorage.getItem(KEYS.__LS_HTML_NAME__) || "HTML")
+
+  //console.log("tsFileName", tsFileName.current)
+
   const reloadEditorContent = () => {
     const htmlText = localStorage.getItem(KEYS.__LS_HTML__);
     const cssText = localStorage.getItem(KEYS.__LS_CSS__);
@@ -58,6 +74,14 @@ const App = () => {
     editor.setValue("css", cssText)
     editor.setValue("html", htmlText)
     editor.setValue("json", jsonText)
+
+    console.log(localStorage.getItem(KEYS.__LS_TS_NAME__))
+
+    jsFileName.current = localStorage.getItem(KEYS.__LS_JS_NAME__)
+    tsFileName.current = localStorage.getItem(KEYS.__LS_TS_NAME__)
+    jsonFileName.current = localStorage.getItem(KEYS.__LS_JSON_NAME__)
+    cssFileName.current = localStorage.getItem(KEYS.__LS_CSS_NAME__)
+    htmlFileName.current = localStorage.getItem(KEYS.__LS_HTML_NAME__)
   }
 
   const init = async () => {
@@ -331,19 +355,6 @@ const App = () => {
   const showNav = false
 
 
-  let {
-    jsFileName,
-    tsFileName,
-    jsonFileName,
-    cssFileName,
-    htmlFileName
-   } = {
-    jsFileName: localStorage.getItem(KEYS.__LS_JS_NAME__) || "JS",
-    tsFileName: localStorage.getItem(KEYS.__LS_TS_NAME__) || "TS",
-    jsonFileName: localStorage.getItem(KEYS.__LS_JSON_NAME__) || "JSON",
-    cssFileName: localStorage.getItem(KEYS.__LS_CSS_NAME__) || "CSS",
-    htmlFileName: localStorage.getItem(KEYS.__LS_HTML_NAME__) || "HTML",
-   }
 
 
 //  <button
@@ -383,26 +394,26 @@ const App = () => {
             }}
           />
           <button className="ButtonHigh" onclick={() => activeBtn(1)}>
-            {htmlFileName}
+            {htmlFileName.current}
           </button>
           <button className="ButtonHigh" onclick={() => activeBtn(2)}>
-            {cssFileName}
+            {cssFileName.current}
           </button>
           <button className="ButtonHigh" onclick={() => activeBtn(3)}>
-            {jsFileName}
+            {jsFileName.current}
           </button>
           <button
             className="ButtonHigh ButtonHigh-Active"
             onclick={() => activeBtn(4)}
           >
-            {tsFileName}
+            {tsFileName.current}
           </button>
           <button
             className="ButtonHigh"
             title="var __VAR_JSON__"
             onclick={() => activeBtn(5)}
           >
-            {jsonFileName}
+            {jsonFileName.current}
           </button>
           <div
             style={{
