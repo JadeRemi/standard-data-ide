@@ -19,6 +19,12 @@ export namespace KEYS {
   export const __LS_BG_OP__ = "__EDITOR_BG_OP__"
   export const __SANDBOX_HOOK__ = "__SANDBOX_HOOK__"
 
+  export const __LS_JS_NAME__ = "__EDITOR_JS_NAME__"
+  export const __LS_TS_NAME__ = "__EDITOR_TS_NAME__"
+  export const __LS_JSON_NAME__ = "__EDITOR_JSON_NAME__"
+  export const __LS_CSS_NAME__ = "__EDITOR_CSS_NAME__"
+  export const __LS_HTML_NAME__ = "__EDITOR_HTML_NAME__"
+
   // var
   export const __VAR_JSON__ = "__VAR_JSON__"
 

@@ -9,5 +9,5 @@ export declare const loadSamples: () => Promise<Defaults>;
 export declare const settings: {
     script: string;
 };
-export declare const loadScript: () => Promise<string>;
+export declare const loadScript: () => string;
 export {};

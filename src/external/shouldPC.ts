@@ -8,7 +8,7 @@ if (
     const message = document.createElement("div")
     message.style.cssText =
       "width:100vw;height:100vh;line-height:100vh;position:fixed;left:0px;top:0px;background:white;text-align:center;z-index:999;font-size:40px;"
-    message.textContent = "请用PC端浏览器打开"
+    message.textContent = "Mobile resolution not supported"
     document.body.append(message)
   })
 }
