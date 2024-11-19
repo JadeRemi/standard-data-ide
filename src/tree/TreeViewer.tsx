@@ -7,7 +7,7 @@ import React from '../../src/lib';
 import { JSX } from "../lib/types";
 
 export interface TreeViewerProps {
-  api: CompilerApi;
+ // api: CompilerApi;
   sourceFile: SourceFile;
   selectedNode: Node;
   onSelectNode: (node: Node) => void;

@@ -15,8 +15,6 @@ export type TLazyComponent = (props: TProps) => Promise<{
 
 export type TUseRef = <T>(current?: T) => TSX.RefObj<T>
 
-///
-
 export declare function TSX(type: any, props: any, ...children: any[]): any;
 
 

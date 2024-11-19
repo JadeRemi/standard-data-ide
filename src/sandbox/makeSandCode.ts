@@ -4,6 +4,7 @@ import { KEYS } from '../constants'
 import { compileTS, EditorAPI } from '../core'
 import { enClosure } from '../utils'
 import { ConsoleHook } from './hooks'
+import * as ts from 'typescript';
 
 export const makeSandCode = async (
   editor: EditorAPI,
@@ -39,6 +40,8 @@ export const makeSandCode = async (
       code += `<script>${enClosure(ts_js)}</script>`
     }
   }
+
+
 
   const parser = new DOMParser()
   const doc = parser.parseFromString(code, "text/html")
