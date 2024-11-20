@@ -7,7 +7,7 @@ import IframeTest from '../../test/deliverMocha';
 import { EditorAPI } from '../../core'
 import { TestLoader } from '../../test/loadTests'
 import { TreeViewer } from '../../tree/TreeViewer'
-import * as ts from "typescript";
+import { createSourceFile, getCompilerApi } from '../../tree/compiler'
 
 export interface Aside {
   onResize: (event: MouseEvent) => string
@@ -32,14 +32,8 @@ export const Aside = ({
   const aside_console_ref = useRef<HTMLDivElement>()
   const console_ref = useRef<HTMLDivElement>()
 
+ 
 
-  const code = editor.getValue("typescript")
-  const sourceFile = ts.createSourceFile(
-    'userInput.ts',   // File name (can be any valid file name)
-    code,        // User's code as a string
-    ts.ScriptTarget.Latest, // Target script version (ESNext, ES5, etc.)
-    true              // Set as 'true' to enable AST node structure creation
-);
 
   // console receive
   let consoleContent = ''
@@ -132,7 +126,7 @@ export const Aside = ({
       
       <IframeTest editor={editor} consoleRef={console_ref}/>
       <TestLoader reload={reload}/>
-      <TreeViewer sourceFile={sourceFile} selectedNode={sourceFile} onSelectNode={() => {}} mode={0}/>
+      
       <div className="Aside-Size" ref={asideSize_ref} />
       <div ref={aside_console_ref} className="Aside-Console">
         <div className="Console-Bar">

@@ -1,10 +1,7 @@
-import { useLayoutEffect } from "react";
-import TreeView from "react-treeview";
+
 import { CompilerApi, getChildrenFunction, getCompilerApi, Node, SourceFile } from "./compiler/index";
 import { TreeMode } from "./types/index";
 import { getSyntaxKindName } from "./utils/index";
-import React from '../../src/lib';
-import { JSX } from "../lib/types";
 
 export interface TreeViewerProps {
   api: CompilerApi;
@@ -14,8 +11,8 @@ export interface TreeViewerProps {
   mode: TreeMode;
 }
 
-export function TreeViewer(props: TreeViewerProps) {
-  const { api: initialApi, sourceFile, selectedNode, onSelectNode, mode } = props;
+export function treeSampler(props: TreeViewerProps) {
+  const { api: initialApi, sourceFile, mode } = props;
 
   let api = initialApi || null
 
@@ -26,9 +23,6 @@ export function TreeViewer(props: TreeViewerProps) {
   }
   load()
   let i = 0;
-  //useLayoutEffect(() => {
-   
-
     const treeViewer = document.getElementById("treeViewer");
     const innerSelectedNode = document.querySelector(`#treeViewer .selected`);
     if (treeViewer && innerSelectedNode) {
@@ -38,23 +32,18 @@ export function TreeViewer(props: TreeViewerProps) {
         innerSelectedNode.scrollIntoView({ block: "center", inline: "center" });
       }
     }
-  //}, [selectedNode]);
-  return <div id="treeViewer">{renderNode(sourceFile, getChildrenFunction(mode, sourceFile) as any)}</div>;
+  return renderNode(sourceFile, getChildrenFunction(mode, sourceFile) as any)
 
-  function renderNode(node: Node, getChildren: (node: Node) => Node[]): JSX.Element {
+  function renderNode(node: Node, getChildren: (node: Node) => Node[]): any {
     const children = getChildren(node);
-    const className = "nodeText" + (node === selectedNode ? " selected" : "");
     const kindName = getSyntaxKindName(api, node.kind);
-    const label = <div onClick={() => onSelectNode(node)} className={className}>{kindName}</div>;
     if (children.length === 0) {
-      return <div key={i++} className="endNode" data-name={kindName}>{label}</div>;
+      return kindName
     } else {
       return (
-        <div data-name={kindName} key={i++}>
-          <TreeView nodeLabel={label}>
-            {children.map((n) => renderNode(n, getChildren))}
-          </TreeView>
-        </div>
+        {
+          [kindName]: children.map((n) => renderNode(n, getChildren))
+         }
       );
     }
   }

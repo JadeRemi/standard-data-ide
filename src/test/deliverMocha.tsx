@@ -5,7 +5,11 @@ import { KEYS } from '../constants';
 import { EditorAPI } from '../core';
 import React from '../lib';
 import { TSX } from '../lib/types';
+import { createSourceFile, getCompilerApi } from '../tree/compiler';
+import { treeSampler } from '../tree/treeSampler';
+import { TreeViewer } from '../tree/TreeViewer';
 import { checkIframeContent } from './checkContent';
+import * as ts from "typescript";
 
 interface IframeTestProps{
   editor: EditorAPI, 
@@ -14,7 +18,8 @@ interface IframeTestProps{
 
 const IframeTest = ({ consoleRef}:IframeTestProps) => {
 
-  const editor: EditorAPI = window["api_editor"];
+  
+  
 
   const handleTestRun = async () => {
     const iframe = document.querySelector('iframe');
@@ -30,6 +35,31 @@ const IframeTest = ({ consoleRef}:IframeTestProps) => {
     )
 
    
+    const editor: EditorAPI = window["api_editor"];
+
+    const prepareCompiler = async () => {
+      const code = editor.getValue("typescript")
+  const compilerApi = await getCompilerApi("typescript")
+  console.log("ast", compilerApi, compilerApi.tsAstViewer)
+      const sourceFile = createSourceFile(
+        compilerApi,  
+        code,       
+        2,
+        3 
+    );
+
+ const typedTree = treeSampler({
+      api:compilerApi,
+      sourceFile: sourceFile.sourceFile as any,
+      selectedNode: sourceFile.sourceFile as any,
+      onSelectNode: () => {},
+      mode: 0,
+   
+    })
+    
+    console.log("FULL AST TREE", typedTree)
+  }
+  prepareCompiler();
 
     const js = localStorage.getItem(KEYS.__LS_JS__);
     const html = localStorage.getItem(KEYS.__LS_HTML__);
@@ -38,6 +68,8 @@ const IframeTest = ({ consoleRef}:IframeTestProps) => {
     const json = localStorage.getItem(KEYS.__LS_JSON__);
     const consoleContent = consoleRef.current?.innerHTML
 
+
+    console.log("editor", editor)
     console.log("Test results:", testResult, {
       js, html, css, typescript, json, consoleContent
     })

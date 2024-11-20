@@ -4,7 +4,6 @@ import { KEYS } from '../constants'
 import { compileTS, EditorAPI } from '../core'
 import { enClosure } from '../utils'
 import { ConsoleHook } from './hooks'
-import * as ts from 'typescript';
 
 export const makeSandCode = async (
   editor: EditorAPI,
