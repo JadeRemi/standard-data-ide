@@ -40,7 +40,6 @@ const IframeTest = ({ consoleRef}:IframeTestProps) => {
     const prepareCompiler = async () => {
       const code = editor.getValue("typescript")
   const compilerApi = await getCompilerApi("typescript")
-  console.log("ast", compilerApi, compilerApi.tsAstViewer)
       const sourceFile = createSourceFile(
         compilerApi,  
         code,       
@@ -69,7 +68,6 @@ const IframeTest = ({ consoleRef}:IframeTestProps) => {
     const consoleContent = consoleRef.current?.innerHTML
 
 
-    console.log("editor", editor)
     console.log("Test results:", testResult, {
       js, html, css, typescript, json, consoleContent
     })

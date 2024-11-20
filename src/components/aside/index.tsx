@@ -8,6 +8,7 @@ import { EditorAPI } from '../../core'
 import { TestLoader } from '../../test/loadTests'
 import { TreeViewer } from '../../tree/TreeViewer'
 import { createSourceFile, getCompilerApi } from '../../tree/compiler'
+import { CompileRunner } from '../../test/rerunCompile'
 
 export interface Aside {
   onResize: (event: MouseEvent) => string
@@ -17,6 +18,7 @@ export interface Aside {
   ref: { current : HTMLDivElement }
   editor: EditorAPI
   reload: ({}) => void
+  rerun: () => Promise<void>
 }
 
 export const Aside = ({
@@ -27,6 +29,7 @@ export const Aside = ({
   onRun,
   editor,
   reload,
+  rerun
 }: Aside) => {
   const asideSize_ref = useRef<HTMLDivElement>()
   const aside_console_ref = useRef<HTMLDivElement>()
@@ -126,6 +129,7 @@ export const Aside = ({
       
       <IframeTest editor={editor} consoleRef={console_ref}/>
       <TestLoader reload={reload}/>
+      <CompileRunner rerun={rerun} />
       
       <div className="Aside-Size" ref={asideSize_ref} />
       <div ref={aside_console_ref} className="Aside-Console">

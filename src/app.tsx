@@ -75,7 +75,7 @@ const App = () => {
     editor.setValue("html", htmlText)
     editor.setValue("json", jsonText)
 
-    console.log(localStorage.getItem(KEYS.__LS_TS_NAME__))
+    //console.log(localStorage.getItem(KEYS.__LS_TS_NAME__))
 
     jsFileName.current = localStorage.getItem(KEYS.__LS_JS_NAME__)
     tsFileName.current = localStorage.getItem(KEYS.__LS_TS_NAME__)
@@ -462,6 +462,7 @@ const App = () => {
         onDownload={() => download("index")}
         editor={editor}
         reload={reloadEditorContent}
+        rerun={run}
       />
       <a ref={dl_ref} />
     </div>
