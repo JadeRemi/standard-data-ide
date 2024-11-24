@@ -7,9 +7,7 @@ import React from '../lib';
 import { TSX } from '../lib/types';
 import { createSourceFile, getCompilerApi } from '../tree/compiler';
 import { treeSampler } from '../tree/treeSampler';
-import { TreeViewer } from '../tree/TreeViewer';
 import { checkIframeContent } from './checkContent';
-import * as ts from "typescript";
 
 interface IframeTestProps{
   editor: EditorAPI, 
@@ -47,10 +45,11 @@ const IframeTest = ({ consoleRef}:IframeTestProps) => {
         3 
     );
 
- const typedTree = treeSampler({
+ const typedTree = await treeSampler({
       api:compilerApi,
       sourceFile: sourceFile.sourceFile as any,
       selectedNode: sourceFile.sourceFile as any,
+      bindingTools: sourceFile.bindingTools,
       onSelectNode: () => {},
       mode: 0,
    

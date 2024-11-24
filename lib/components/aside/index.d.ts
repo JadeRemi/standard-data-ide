@@ -12,5 +12,6 @@ export interface Aside {
     };
     editor: EditorAPI;
     reload: ({}: {}) => void;
+    rerun: () => Promise<void>;
 }
-export declare const Aside: ({ ref, sandboxRef, onResize, onDownload, onRun, editor, reload, }: Aside) => any;
+export declare const Aside: ({ ref, sandboxRef, onResize, onDownload, onRun, editor, reload, rerun }: Aside) => any;
