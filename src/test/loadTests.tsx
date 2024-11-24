@@ -1,5 +1,6 @@
-import { KEYS } from '../constants';
+import { EMPTY_FILE, KEYS } from '../constants';
 import React from '../lib';
+import { loadSamples } from '../samples';
 
 type TFile = "ts" | "js" | "json" | "css" | "html" | null
 
@@ -28,7 +29,6 @@ const applyFileName = (fileName: string, fileType: TFile) => {
 
 const applyFileContent = (content: string, fileType: TFile) => {
     const key = storageContentKeys[fileType]
-    console.log("key", key, content)
     if (key) localStorage.setItem(key, content)
 
 }
@@ -36,7 +36,12 @@ const applyFileContent = (content: string, fileType: TFile) => {
 
 
 
-const parseFields = (fields: { file_name: string, value: string}[]) => {
+const parseFields = async (fields: { file_name: string, value: string}[]) => {
+
+    const rawContentTypes: TFile[] = ["html", "js", "ts", "css", "json"]
+    const contentTypesFromApi = []
+
+    const samples = await loadSamples()
 
     for (const field of fields) {
         const {file_name, value} = field;
@@ -49,12 +54,31 @@ const parseFields = (fields: { file_name: string, value: string}[]) => {
         if (file_name.endsWith(".css")) fileType = "css"
         if (file_name.endsWith(".json")) fileType = "json"
 
-        if (!fileType) return;
+        if (!fileType) continue;
+        contentTypesFromApi.push(fileType)
         applyFileName(file_name, fileType)
+
+
+   
         applyFileContent(value, fileType)
     }
 
+    
 
+    for (const rawType of rawContentTypes) {
+        console.log(rawContentTypes, rawType, contentTypesFromApi)
+        if (contentTypesFromApi.includes(rawType)) continue;
+   
+        applyFileName(EMPTY_FILE, rawType)
+
+        let sampleType: keyof typeof samples;
+        if (rawType === "json") sampleType = "json"
+        if (rawType === "js") sampleType = "javascript"
+        if (rawType === "ts") sampleType = "typescript"
+        if (rawType === "html") sampleType = "html"
+        if (rawType === "css") sampleType = "css"
+        if (sampleType) applyFileContent(samples[sampleType],rawType )
+    }
 
 }
 
@@ -79,17 +103,23 @@ export const TestLoader = ({reload}) => {
               
                 if (!data?.text) return;
                 const { text, fields } = data
-                console.log("data", data, reload); 
                 if (typeof text !== "string") return
          
-                parseFields(fields)
-                reload?.()
+                const fullReload = async() => {
+                    await parseFields(fields)
+                    reload?.()
+                }
+
+                //localStorage.clear();
+                fullReload()
+                return fields
+               
 
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-        console.log(value)
+       // console.log(value)
     }
 
     return (

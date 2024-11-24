@@ -32,3 +32,6 @@ export namespace KEYS {
   export const __MESSAGE_CONSOLE__ = "__MESSAGE_CONSOLE__"
   export const __MESSAGE_CONSOLE_ERROR__ = "__MESSAGE_CONSOLE_ERROR__"
 }
+
+
+export const EMPTY_FILE = "__empty__"

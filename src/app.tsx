@@ -10,7 +10,7 @@ import {
   Aside,
   shouldAutoRun,
 } from './components'
-import { KEYS } from './constants'
+import { EMPTY_FILE, KEYS } from './constants'
 import {
   addExtraLib,
   addModuleDeclaration,
@@ -35,6 +35,13 @@ const FILES = {
   html: "index.html"
 }
 
+let jsFileName = localStorage.getItem(KEYS.__LS_JS_NAME__) || "JS"
+let tsFileName = localStorage.getItem(KEYS.__LS_TS_NAME__) || "TS"
+let jsonFileName = localStorage.getItem(KEYS.__LS_JSON_NAME__) || "JSON"
+let cssFileName = localStorage.getItem(KEYS.__LS_CSS_NAME__) || "CSS"
+let htmlFileName = localStorage.getItem(KEYS.__LS_HTML_NAME__) || "HTML"
+
+
 const App = () => {
   let editor: EditorAPI
   let docWidth = document.documentElement.clientWidth
@@ -55,11 +62,12 @@ const App = () => {
 
 
 
-  const jsFileName = useRef<string>(localStorage.getItem(KEYS.__LS_JS_NAME__) || "JS")
-  const tsFileName = useRef<string>(localStorage.getItem(KEYS.__LS_TS_NAME__) || "TS")
-  const jsonFileName = useRef<string>(localStorage.getItem(KEYS.__LS_JSON_NAME__) || "JSON")
-  const cssFileName = useRef<string>(localStorage.getItem(KEYS.__LS_CSS_NAME__) || "CSS")
-  const htmlFileName = useRef<string>(localStorage.getItem(KEYS.__LS_HTML_NAME__) || "HTML")
+  //const jsFileName = useRef<string>(localStorage.getItem(KEYS.__LS_JS_NAME__) || "JS")
+  //const tsFileName = useRef<string>(localStorage.getItem(KEYS.__LS_TS_NAME__) || "TS")
+  //const jsonFileName = useRef<string>(localStorage.getItem(KEYS.__LS_JSON_NAME__) || "JSON")
+  //const cssFileName = useRef<string>(localStorage.getItem(KEYS.__LS_CSS_NAME__) || "CSS")
+  //const htmlFileName = useRef<string>(localStorage.getItem(KEYS.__LS_HTML_NAME__) || "HTML")
+
 
   //console.log("tsFileName", tsFileName.current)
 
@@ -77,11 +85,15 @@ const App = () => {
 
     //console.log(localStorage.getItem(KEYS.__LS_TS_NAME__))
 
-    jsFileName.current = localStorage.getItem(KEYS.__LS_JS_NAME__)
-    tsFileName.current = localStorage.getItem(KEYS.__LS_TS_NAME__)
-    jsonFileName.current = localStorage.getItem(KEYS.__LS_JSON_NAME__)
-    cssFileName.current = localStorage.getItem(KEYS.__LS_CSS_NAME__)
-    htmlFileName.current = localStorage.getItem(KEYS.__LS_HTML_NAME__)
+    jsFileName = localStorage.getItem(KEYS.__LS_JS_NAME__)
+    tsFileName  = localStorage.getItem(KEYS.__LS_TS_NAME__)
+    jsonFileName  = localStorage.getItem(KEYS.__LS_JSON_NAME__)
+    cssFileName  = localStorage.getItem(KEYS.__LS_CSS_NAME__)
+    htmlFileName  = localStorage.getItem(KEYS.__LS_HTML_NAME__)
+    
+
+    window.location.reload()
+    
   }
 
   const init = async () => {
@@ -393,28 +405,32 @@ const App = () => {
               width: "0.5rem"
             }}
           />
-          <button className="ButtonHigh" onclick={() => activeBtn(1)}>
-            {htmlFileName.current}
+          {htmlFileName!==EMPTY_FILE ? <button className="ButtonHigh" onclick={() => activeBtn(1)}>
+            {htmlFileName}
+          </button> : ""}
+          {cssFileName!==EMPTY_FILE ? <button className="ButtonHigh" onclick={() => activeBtn(2)}>
+            {cssFileName}
           </button>
-          <button className="ButtonHigh" onclick={() => activeBtn(2)}>
-            {cssFileName.current}
+          : ""}
+          {jsFileName!==EMPTY_FILE ? <button className="ButtonHigh" onclick={() => activeBtn(3)}>
+            {jsFileName}
           </button>
-          <button className="ButtonHigh" onclick={() => activeBtn(3)}>
-            {jsFileName.current}
-          </button>
-          <button
+          : ""}
+          {tsFileName!==EMPTY_FILE ? <button
             className="ButtonHigh ButtonHigh-Active"
             onclick={() => activeBtn(4)}
           >
-            {tsFileName.current}
+            {tsFileName}
           </button>
-          <button
+          : ""}
+          { jsonFileName!==EMPTY_FILE ? <button
             className="ButtonHigh"
             title="var __VAR_JSON__"
             onclick={() => activeBtn(5)}
           >
-            {jsonFileName.current}
+            {jsonFileName}
           </button>
+          : ""}
           <div
             style={{
               flexGrow: "1",
@@ -469,6 +485,12 @@ const App = () => {
   )
 }
 
-render(<App />, document.getElementById("root"))
+const rerender = () => {
+  render(<App />, document.getElementById("root"))
+}
+
+rerender()
+
+
 
 

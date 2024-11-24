@@ -17,7 +17,7 @@ export const CompileRunner = ({rerun}) => {
             backgroundColor: "pink",
             padding: "4px",
             cursor: "pointer",
-            width: "30px",
+            width: "55px",
             display: "flex",
             flexDirection: "row",
             gap: "4px",
@@ -26,7 +26,8 @@ export const CompileRunner = ({rerun}) => {
           <button
           style={{
                 height: "30px",
-                width: "40px"
+                width: "55px",
+                whiteSpace: "nowrap"
                 }}
                 onclick={onClick}
                 >
