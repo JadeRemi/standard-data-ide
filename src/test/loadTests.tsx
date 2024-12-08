@@ -91,6 +91,7 @@ export const TestLoader = ({reload}) => {
 
 
     const onClick = () => {
+  
         fetch(value, { 
             method: 'GET',
             headers: {
@@ -110,7 +111,7 @@ export const TestLoader = ({reload}) => {
                     reload?.()
                 }
 
-                //localStorage.clear();
+ 
                 fullReload()
                 return fields
                
@@ -119,8 +120,11 @@ export const TestLoader = ({reload}) => {
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
-       // console.log(value)
+
+
+
     }
+
 
     return (
     <div

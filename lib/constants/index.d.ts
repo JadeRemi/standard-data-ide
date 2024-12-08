@@ -23,3 +23,4 @@ export declare namespace KEYS {
     const __MESSAGE_CONSOLE__ = "__MESSAGE_CONSOLE__";
     const __MESSAGE_CONSOLE_ERROR__ = "__MESSAGE_CONSOLE_ERROR__";
 }
+export declare const EMPTY_FILE = "__empty__";
