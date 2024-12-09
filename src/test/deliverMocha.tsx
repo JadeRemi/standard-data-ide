@@ -9,60 +9,146 @@ import { createSourceFile, getCompilerApi } from '../tree/compiler';
 import { treeSampler } from '../tree/treeSampler';
 import { callTsApi } from './callTsApi';
 import { checkIframeContent } from './checkContent';
-import { expect } from "chai"
+
+
+
+/// EXAMPLE:
+
+
+//describe('Тестирование наличия элементов внутри элемента counter', () => {
+//  it('должен содержать поле ввода .counter__input', () => {   
+//const counterInput = dom.querySelector('button');
+// expect(counterInput).toExist()
+//   }); 
+//  it('должен содержать поле ввода .counter__increase', () => {
+//     const counterIncrease = dom.querySelector('.counter');
+//     expect(counterIncrease).toExist()
+//      });
+//       it('должен содержать поле ввода .counter__decrease', () => {
+//       const counterDecrease = dom.querySelector('.counter');
+//       expect(counterDecrease)
+//       expect(counterDecrease).toExist()
+//
+//});});
+
 
 interface IframeTestProps{
   editor: EditorAPI, 
   consoleRef: TSX.RefObj<HTMLDivElement>
 } 
 
-const describe = (testSuiteName: string, testCb: () => void) => {
-     const b = testCb(); 
-     console.log(testSuiteName)
+const TEST_CASES = {}
+let scopeSuite = null;
+let testCase = null;
+
+
+
+function describe (testSuiteName: string, testCb: () => void) {
+
+  TEST_CASES[testSuiteName] = {}
+  scopeSuite = testSuiteName;
+  testCb(); 
 }
 
 const it = (testCaseName: string, testCb: () => void) => {
-  const b = testCb(); 
-  console.log(testCaseName)
+  if (!scopeSuite) return;
+  testCase = testCaseName
+  TEST_CASES[scopeSuite][testCaseName] = {};
+  testCb(); 
 }
 
-//const expect = (a) => {console.log("expect", a)}
-// toEqual
-// toNotEqual
+const expect = (el) => {
+  if (!scopeSuite || !testCase) return;
+  TEST_CASES[scopeSuite][testCase] = {}
+  const testSlot = TEST_CASES[scopeSuite][testCase]
 
-
-
-
-const IframeTest = ({ consoleRef}:IframeTestProps) => {
+  testSlot.received = (el)
   
-  console.log(expect)
 
+  return {
+    toEqual: (expected:string) => { 
+      if (!expected) return;
+      testSlot.expected = expected
+      testSlot.result = el == expected
+     },
+     toNotEqual: (expected:string) => {
+      if (!expected) return;
+      testSlot.expected = expected
+      testSlot.result = el !== expected
+    },
+    toInclude: (expected:string) => {
+      if (!expected) return;
+      testSlot.expected = expected
+      testSlot.result = (typeof el === "string" || Array.isArray(el)) && el?.includes(expected) 
+    },
+    toNotInclude: (expected:string) => {
+      if (!expected) return;
+      testSlot.expected = expected
+      testSlot.result = !((typeof el === "string" || Array.isArray(el)) && el?.includes(expected) )
+    },
+    toExist: () => {
+      testSlot.expected = el
+      testSlot.result = !!el
+    },
+    toNotExist: () => {
+      testSlot.expected = null
+      testSlot.result = !el
+    },
+    toHaveText: (expected:string) => {
+      if (!expected) return;
+      testSlot.expected = expected
+      const str = JSON.stringify(el)
+      testSlot.result = str.includes(expected)
+    },
+    toNotHaveText: (expected:string) => {
+      if (!expected) return;
+      testSlot.expected = expected
+      const str = JSON.stringify(el)
+      testSlot.result = !str.includes(expected)
+    },
+  }
+}
+
+
+
+const runApiTest = async () => {
+  const iframeWrap = window.top.document.querySelector('iframe#sandbox') as HTMLIFrameElement
+  const dom = iframeWrap.contentDocument || iframeWrap.contentWindow.document;
+  const mochaContent = 
+  //localStorage.getItem(KEYS.__LS_MOCHA__)
+`describe('Тестирование наличия элементов внутри элемента counter', () => {
+  it('должен содержать поле ввода .counter__input', () => {   
+const counterInput = dom.querySelector('button');
+ expect(counterInput).toExist()
+   }); 
+  it('должен содержать поле ввода .counter__increase', () => {
+     const counterIncrease = dom.querySelector('.counter');
+     expect(counterIncrease).toExist()
+      });
+       it('должен содержать поле ввода .counter__decrease', () => {
+       const counterDecrease = dom.querySelector('.counter');
+       expect(counterDecrease)
+       expect(counterDecrease).toExist()
+
+});});`
+
+  eval(mochaContent)
+  console.log("Mocha result: " ,TEST_CASES)
+}
+
+
+
+
+
+const IframeTest = ({ consoleRef }:IframeTestProps) => {
+  
   const handleTestRun = async () => {
 
-    const a = "describe()"
 
 
 
 
-    describe('Тестирование наличия элементов внутри элемента counter', () => {
-         it('должен содержать поле ввода .counter__input', () => {   
-      const counterInput = document.querySelector('.counter .counter__input');
-        //chai.expect(counterInput).to.exist;
-        expect(counterInput)
-          }); 
-         it('должен содержать поле ввода .counter__increase', () => {
-            const counterIncrease = document.querySelector('.counter .counter__increase');
-           //  chai.expect(counterIncrease).to.exist;
-           expect(counterIncrease)
-             });
-              it('должен содержать поле ввода .counter__decrease', () => {
-              const counterDecrease = document.querySelector('.counter .counter__decrease');
-              expect(counterDecrease)
-       //chai.expect(counterDecrease).to.exist;
-       });});
 
-
-     // Run the tests and collect results
 
 
    // "tests": 
@@ -127,6 +213,9 @@ const IframeTest = ({ consoleRef}:IframeTestProps) => {
 
 
     const tsApiResponse =     await callTsApi();
+
+  
+    await runApiTest();
 
     console.warn("Ts API:", tsApiResponse)
 

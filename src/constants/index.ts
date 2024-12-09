@@ -25,6 +25,8 @@ export namespace KEYS {
   export const __LS_CSS_NAME__ = "__EDITOR_CSS_NAME__"
   export const __LS_HTML_NAME__ = "__EDITOR_HTML_NAME__"
 
+  export const __LS_MOCHA__ = "__MOCHA__"
+
   // var
   export const __VAR_JSON__ = "__VAR_JSON__"
 

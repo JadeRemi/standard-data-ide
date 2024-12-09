@@ -34,7 +34,9 @@ const applyFileContent = (content: string, fileType: TFile) => {
 }
 
 
-
+const parseTests = (tests: string) => {
+    localStorage.setItem(KEYS.__LS_MOCHA__, tests) 
+}
 
 const parseFields = async (fields: { file_name: string, value: string}[]) => {
 
@@ -103,11 +105,12 @@ export const TestLoader = ({reload}) => {
             .then(data => {
               
                 if (!data?.text) return;
-                const { text, fields } = data
+                const { text, fields, tests } = data
                 if (typeof text !== "string") return
          
                 const fullReload = async() => {
                     await parseFields(fields)
+                    await parseTests(tests)
                     reload?.()
                 }
 
