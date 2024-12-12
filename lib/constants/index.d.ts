@@ -19,6 +19,7 @@ export declare namespace KEYS {
     const __LS_JSON_NAME__ = "__EDITOR_JSON_NAME__";
     const __LS_CSS_NAME__ = "__EDITOR_CSS_NAME__";
     const __LS_HTML_NAME__ = "__EDITOR_HTML_NAME__";
+    const __LS_MOCHA__ = "__MOCHA__";
     const __VAR_JSON__ = "__VAR_JSON__";
     const __MESSAGE_CONSOLE__ = "__MESSAGE_CONSOLE__";
     const __MESSAGE_CONSOLE_ERROR__ = "__MESSAGE_CONSOLE_ERROR__";

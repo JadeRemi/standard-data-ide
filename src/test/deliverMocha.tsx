@@ -109,14 +109,7 @@ const expect = (el) => {
   }
 }
 
-
-
-const runApiTest = async () => {
-  const iframeWrap = window.top.document.querySelector('iframe#sandbox') as HTMLIFrameElement
-  const dom = iframeWrap.contentDocument || iframeWrap.contentWindow.document;
-  const mochaContent = 
-  //localStorage.getItem(KEYS.__LS_MOCHA__)
-`describe('Тестирование наличия элементов внутри элемента counter', () => {
+const STATIC_MOCHA_TEST = `describe('Тестирование наличия элементов внутри элемента counter', () => {
   it('должен содержать поле ввода .counter__input', () => {   
 const counterInput = dom.querySelector('button');
  expect(counterInput).toExist()
@@ -132,8 +125,18 @@ const counterInput = dom.querySelector('button');
 
 });});`
 
-  eval(mochaContent)
-  console.log("Mocha result: " ,TEST_CASES)
+
+
+const runApiTest = async (content: string) => {
+  try {
+    const iframeWrap = window.top.document.querySelector('iframe#sandbox') as HTMLIFrameElement
+    const dom = iframeWrap.contentDocument || iframeWrap.contentWindow.document;
+    eval(content)
+    console.log("Mocha result: " ,TEST_CASES)
+  } catch (error) {
+    console.error(error)
+  }
+
 }
 
 
@@ -143,13 +146,6 @@ const counterInput = dom.querySelector('button');
 const IframeTest = ({ consoleRef }:IframeTestProps) => {
   
   const handleTestRun = async () => {
-
-
-
-
-
-
-
 
    // "tests": 
    // "describe('Тестирование наличия элементов внутри элемента counter', () => {
@@ -212,12 +208,14 @@ const IframeTest = ({ consoleRef }:IframeTestProps) => {
     const consoleContent = consoleRef.current?.innerHTML
 
 
-    const tsApiResponse =     await callTsApi();
+    const tsApiResponse = await callTsApi();
 
   
-    await runApiTest();
+    await runApiTest(STATIC_MOCHA_TEST);
+    await runApiTest(localStorage.getItem(KEYS.__LS_MOCHA__));
+    
 
-    console.warn("Ts API:", tsApiResponse)
+    console.log("Ts API:", tsApiResponse)
 
     console.log("Test results:", testResult, {
       js, html, css, typescript, json, consoleContent
